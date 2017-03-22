@@ -1,0 +1,10 @@
+name: accumulate
+
+dependencies:
+  - base
+  - safe-exceptions
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Control.Applicative.Accumulate

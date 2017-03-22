@@ -1,0 +1,7 @@
+resolver: lts-8.5
+
+packages:
+  - accumulate
+
+nix:
+  shell-file: shell.nix
