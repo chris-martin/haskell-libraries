@@ -1,0 +1,18 @@
+name: tchan-log-demo
+
+dependencies:
+  - async
+  - base
+  - safe-exceptions
+  - stm
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
+
+executables:
+  tchan-log-demo:
+    source-dirs: app
+    main: tchan-log-demo.hs
