@@ -3,6 +3,7 @@ resolver: lts-8.5
 packages:
   - accumulate
   - encodings
+  - human-text
   - tchan-log-demo
 
 nix:

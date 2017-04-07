@@ -1,0 +1,16 @@
+name: human-text
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Data.Text.Human
+
+dependencies:
+  - base
+  - text
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
