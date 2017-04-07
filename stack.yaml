@@ -4,6 +4,7 @@ packages:
   - accumulate
   - decimal-text
   - encodings
+  - human-parse
   - human-text
   - tchan-log-demo
 
