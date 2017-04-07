@@ -1,0 +1,16 @@
+name: decimal-text
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Data.Text.Decimal
+
+dependencies:
+  - base
+  - text
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
