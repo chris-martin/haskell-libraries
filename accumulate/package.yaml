@@ -1,10 +1,16 @@
 name: accumulate
 
-dependencies:
-  - base
-  - safe-exceptions
-
 library:
   source-dirs: src
   exposed-modules:
     - Control.Applicative.Accumulate
+
+dependencies:
+  - base
+  - safe-exceptions
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
