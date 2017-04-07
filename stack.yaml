@@ -2,6 +2,7 @@ resolver: lts-8.5
 
 packages:
   - accumulate
+  - encodings
   - tchan-log-demo
 
 nix:

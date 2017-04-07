@@ -1,0 +1,15 @@
+name: encodings
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Data.Encodings
+
+dependencies:
+  - base
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
