@@ -1,0 +1,21 @@
+name: exception-records
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Control.Exception.Records
+    - Control.Exception.Records.Class
+    - Control.Exception.Records.PropagateException
+    - Control.Exception.Records.ReifyException
+    - Control.Exception.Records.SwallowException
+
+dependencies:
+  - base
+  - deepseq
+  - safe-exceptions
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
