@@ -1,0 +1,16 @@
+name: irs-forms
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - IRS.Prelude
+    - IRS.Year_2016.Form_1040.Qualified_Dividends_And_Capital_Gains_Worksheet
+
+dependencies:
+  - base
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
