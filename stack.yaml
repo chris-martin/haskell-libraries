@@ -2,6 +2,7 @@ resolver: lts-8.8
 
 packages:
   - accumulate
+  - atomic-modify
   - decimal-text
   - encodings
   - exception-records
