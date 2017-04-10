@@ -1,4 +1,6 @@
 name: human-text
+version: 0.1.0.0
+category: Text
 
 library:
   source-dirs: src
