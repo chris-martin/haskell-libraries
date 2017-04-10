@@ -1,1 +1,7 @@
 # haskell-libraries
+
+This repository is a convenient place for me to start libraries. If a package grows into anything significant, I'll split it out into its own repository. If you find something here that you want to use that isn't on Hackage, submit an issue.
+
+Packages released to Hackage:
+[human-parse](https://hackage.haskell.org/package/human-text),
+[human-text](https://hackage.haskell.org/package/human-text).
