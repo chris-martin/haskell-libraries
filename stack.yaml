@@ -9,6 +9,7 @@ packages:
   - human-parse
   - human-text
   - irs-forms
+  - mvar-lock
   - tchan-log-demo
 
 nix:
