@@ -1,5 +1,5 @@
 name: human-text
-version: 0.1.0.0
+version: 0.1.0.1
 category: Text
 
 synopsis: >
@@ -13,6 +13,8 @@ description: >
 author:     Chris Martin <ch.martin@gmail.com>
 maintainer: Chris Martin <ch.martin@gmail.com>
 
+homepage: https://github.com/chris-martin/haskell-libraries
+
 license:      Apache-2.0
 license-file: license.txt
 
@@ -22,7 +24,7 @@ library:
     - Data.Text.Human
 
 dependencies:
-  - base
+  - base >= 4.9 && < 4.10
   - text
 
 ghc-options:
