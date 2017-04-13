@@ -24,7 +24,7 @@ Example usage:
 
 -}
 
-module IRS.Year_2016.Form_1040.Qualified_Dividends_And_Capital_Gains_Worksheet
+module IRS.Year_2016.Federal.Form_1040.Qualified_Dividends_And_Capital_Gains_Worksheet
   where
 
 import IRS.Prelude
