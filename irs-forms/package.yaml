@@ -5,6 +5,7 @@ library:
   exposed-modules:
     - IRS.Prelude
     - IRS.Year_2016.Federal.Form_1040.Qualified_Dividends_And_Capital_Gains_Worksheet
+    - IRS.Year_2016.Georgia.Form_500.Worksheet_For_Other_States_Tax_Credit.Full_Year_Residents
 
 dependencies:
   - base

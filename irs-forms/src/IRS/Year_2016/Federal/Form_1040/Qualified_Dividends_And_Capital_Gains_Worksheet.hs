@@ -1,5 +1,3 @@
-{-# LANGUAGE RecordWildCards #-}
-
 {- |
 
 This doesn't output the entire worksheet because I have not bothered to codify
@@ -23,6 +21,8 @@ Example usage:
 >   }
 
 -}
+
+{-# LANGUAGE RecordWildCards #-}
 
 module IRS.Year_2016.Federal.Form_1040.Qualified_Dividends_And_Capital_Gains_Worksheet
   where
