@@ -4,6 +4,7 @@ packages:
   - accumulate
   - atomic-modify
   - decimal-text
+  - elephant
   - encodings
   - exception-records
   - human-parse
