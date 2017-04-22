@@ -1,0 +1,23 @@
+name: forest
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Data.Forest
+
+dependencies:
+  - base
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
+
+tests:
+  doctest:
+    source-dirs: test
+    main: doctest.hs
+    dependencies:
+      - doctest
+      - forest
