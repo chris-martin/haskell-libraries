@@ -3,11 +3,11 @@ resolver: lts-8.8
 packages:
   - accumulate
   - atomic-modify
+  - data-forest
   - decimal-text
   - elephant
   - encodings
   - exception-records
-  - forest
   - human-parse
   - human-text
   - irs-forms
