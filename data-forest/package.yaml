@@ -1,5 +1,5 @@
 name: data-forest
-version: 0.1.0.2
+version: 0.1.0.3
 category: Data Structures
 
 synopsis: >
@@ -39,4 +39,4 @@ tests:
     main: doctest.hs
     dependencies:
       - doctest
-      - forest
+      - data-forest
