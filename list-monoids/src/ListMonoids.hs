@@ -156,7 +156,7 @@ List ()
 >>> Nil <> ("1" / "2" / "3" / Nil :: List String)
 List ()
 
->>> (("a" <>) / ("b" <>) / ("c" <>) / Nil) <*> Nil :: List String
+>>> ("a" / "b" / "c" / Nil) <> Nil :: List String
 List ()
 
 >>> ("a" / "b" / "c" / Nil) <> ("1" / "2" / Nil) :: List String
