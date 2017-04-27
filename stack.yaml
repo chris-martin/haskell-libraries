@@ -11,6 +11,7 @@ packages:
   - human-parse
   - human-text
   - irs-forms
+  - list-monoids
   - mvar-lock
   - tchan-log-demo
 

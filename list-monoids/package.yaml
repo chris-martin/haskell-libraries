@@ -1,0 +1,23 @@
+name: list-monoids
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - ListMonoids
+
+dependencies:
+  - base
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
+
+tests:
+  doctest:
+    source-dirs: test
+    main: doctest.hs
+    dependencies:
+      - doctest
+      - list-monoids
