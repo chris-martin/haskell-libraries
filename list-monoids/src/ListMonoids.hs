@@ -159,7 +159,7 @@ List ()
 >>> (("a" <>) / ("b" <>) / ("c" <>) / Nil) <*> Nil :: List String
 List ()
 
->>> (("a" <>) / ("b" <>) / ("c" <>) / Nil) <*> ("1" / "2" / Nil) :: List String
+>>> ("a" / "b" / "c" / Nil) <> ("1" / "2" / Nil) :: List String
 List ("a1" / "a2" / "b1" / "b2" / "c1" / "c2")
 
 -}
