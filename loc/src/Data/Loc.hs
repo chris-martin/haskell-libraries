@@ -35,8 +35,8 @@ import Data.Loc.Loc (Loc)
 import Data.Loc.Pos (Column, Line, Pos, ToNat (..))
 import Data.Loc.Span (Span)
 
-import qualified Data.Loc.Loc as Loc
 import qualified Data.Loc.Area as Area
+import qualified Data.Loc.Loc as Loc
 import qualified Data.Loc.Span as Span
 
 {- |
