@@ -2,10 +2,10 @@ name: loc-test
 version: 0.1.0.0
 category: Testing
 
-synopsis: >
+synopsis: |
   Test-related utilities related to the /loc/ package.
 
-description: >
+description: |
   Test-related utilities related to the /loc/ package. Currently contains only
   Hedgehog generators.
 
