@@ -1,16 +1,12 @@
 {-# LANGUAGE DeriveFoldable, DeriveFunctor #-}
 
-{- |
-
-Recommended import:
-
-> import Data.Loc.List.ZeroToTwo (ZeroToTwo)
-> import qualified Data.Loc.List.ZeroToTwo as ZeroToTwo
-
--}
-
 module Data.Loc.List.ZeroToTwo
-  ( ZeroToTwo (..)
+  (
+  -- Imports
+  -- $imports
+
+  -- * Type
+    ZeroToTwo (..)
   ) where
 
 import Data.Loc.Internal.Prelude
@@ -21,3 +17,12 @@ data ZeroToTwo a
   | One a   -- ^ List of length 1
   | Two a a -- ^ List of length 2
   deriving (Eq, Ord, Show, Read, Foldable, Functor)
+
+{- $imports
+
+Recommended import:
+
+> import Data.Loc.List.ZeroToTwo (ZeroToTwo)
+> import qualified Data.Loc.List.ZeroToTwo as ZeroToTwo
+
+-}

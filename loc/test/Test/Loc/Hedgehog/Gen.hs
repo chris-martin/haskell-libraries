@@ -1,11 +1,10 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 {- |
 
 Hedgehog generators for types defined in the /loc/ package.
 
 -}
-
-{-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
-
 module Test.Loc.Hedgehog.Gen
   (
   -- * Line
@@ -42,6 +41,7 @@ import qualified Data.Set as Set
 import qualified Hedgehog.Gen as Gen
 import qualified Hedgehog.Range as Range
 
+
 --------------------------------------------------------------------------------
 --  Parameter defaults
 --------------------------------------------------------------------------------
@@ -62,9 +62,13 @@ defMaxColumn = 99
 -- | Inclusive lower and upper bounds on a range.
 type Bounds a = (a, a)
 
--- | The size of a range specified by 'Bounds'.
---
--- Assumes the upper bound is at least the lower bound.
+{- |
+
+The size of a range specified by 'Bounds'.
+
+Assumes the upper bound is at least the lower bound.
+
+-}
 boundsSize :: Num n => (n, n) -> n
 boundsSize (a, b) =
   1 + b - a
@@ -74,7 +78,11 @@ boundsSize (a, b) =
 --  Pos
 --------------------------------------------------------------------------------
 
--- | @'pos' a b@ generates a number on the linear range /a/ to /b/.
+{- |
+
+@'pos' a b@ generates a number on the linear range /a/ to /b/.
+
+-}
 pos :: (Monad m, ToNat n, Num n)
   => Bounds n -- ^ Minimum and maximum value to generate
   -> Gen m n
@@ -84,24 +92,40 @@ pos (a, b) =
   in
     fromInteger . toInteger <$> Gen.integral range
 
--- | @'line' a b@ generates a line number on the linear range /a/ to /b/.
+{- |
+
+@'line' a b@ generates a line number on the linear range /a/ to /b/.
+
+-}
 line :: Monad m
   => Bounds Line -- ^ Minimum and maximum line number
   -> Gen m Line
 line = pos
 
--- | Generates a line number within the default bounds @(1, 'defMaxLine')@.
+{- |
+
+Generates a line number within the default bounds @(1, 'defMaxLine')@.
+
+-}
 line' :: Monad m => Gen m Line
 line' =
   line (1, defMaxLine)
 
--- | @'column' a b@ generates a column number on the linear range /a/ to /b/.
+{- |
+
+@'column' a b@ generates a column number on the linear range /a/ to /b/.
+
+-}
 column :: Monad m
   => Bounds Column -- ^ Minimum and maximum column number
   -> Gen m Column
 column = pos
 
--- | Generates a column number within the default bounds @(1, 'defMaxColumn')@.
+{- |
+
+Generates a column number within the default bounds @(1, 'defMaxColumn')@.
+
+-}
 column' :: Monad m => Gen m Column
 column' =
   column (1, defMaxColumn)
@@ -111,8 +135,12 @@ column' =
 --  Loc
 --------------------------------------------------------------------------------
 
--- | @'loc' lineBounds columnBounds@ generates a 'Loc' with the line number
--- bounded by @lineBounds@ and column number bounded by @columnBounds@.
+{- |
+
+@'loc' lineBounds columnBounds@ generates a 'Loc' with the line number
+bounded by @lineBounds@ and column number bounded by @columnBounds@.
+
+-}
 loc :: Monad m
   => Bounds Line   -- ^ Minimum and maximum line number
   -> Bounds Column -- ^ Minimum and maximum column number
@@ -121,7 +149,11 @@ loc lineBounds columnBounds =
   Loc.loc <$> line   lineBounds
           <*> column columnBounds
 
--- | Generates a 'Loc' within the default line and column bounds.
+{- |
+
+Generates a 'Loc' within the default line and column bounds.
+
+-}
 loc' :: Monad m => Gen m Loc
 loc' =
   loc (1, defMaxLine) (1, defMaxColumn)
@@ -131,9 +163,13 @@ loc' =
 --  Span
 --------------------------------------------------------------------------------
 
--- | @'span' lineBounds columnBounds@ generates a 'Span' with start and end
--- positions whose line numbers are bounded by @lineBounds@ and whose column
--- numbers are bounded by @columnBounds@.
+{- |
+
+@'span' lineBounds columnBounds@ generates a 'Span' with start and end
+positions whose line numbers are bounded by @lineBounds@ and whose column
+numbers are bounded by @columnBounds@.
+
+-}
 span :: forall m. Monad m
   => Bounds Line   -- ^ Minimum and maximum line number
   -> Bounds Column -- ^ Minimum and maximum column number
@@ -175,8 +211,12 @@ span lineBounds columnBounds@(minColumn, maxColumn) =
     in
       Loc.spanFromTo start end
 
--- | Generates a 'Span' with start and end positions within the default line and
--- column bounds.
+{- |
+
+Generates a 'Span' with start and end positions within the default line and
+column bounds.
+
+-}
 span' :: Monad m => Gen m Span
 span' =
   span (1, defMaxLine) (1, defMaxColumn)
@@ -186,9 +226,13 @@ span' =
 --  Area
 --------------------------------------------------------------------------------
 
--- | @'area' lineBounds columnBounds@ generates an 'Area' consisting of 'Span's
--- with start and end positions whose line numbers are bounded by @lineBounds@
--- and whose column numbers are bounded by @columnBounds@.
+{- |
+
+@'area' lineBounds columnBounds@ generates an 'Area' consisting of 'Span's
+with start and end positions whose line numbers are bounded by @lineBounds@
+and whose column numbers are bounded by @columnBounds@.
+
+-}
 area :: forall m. Monad m
   => Bounds Line   -- ^ Minimum and maximum line number
   -> Bounds Column -- ^ Minimum and maximum column number
@@ -212,8 +256,12 @@ area lineBounds columnBounds =
         Just prevLoc -> (Nothing, Loc.areaFromTo prevLoc newLoc)
         Nothing -> (Just newLoc, mempty)
 
--- | Generates an 'Area' consisting of 'Span's with start and end positions
--- within the default line and column bounds.
+{- |
+
+Generates an 'Area' consisting of 'Span's with start and end positions within
+the default line and column bounds.
+
+-}
 area' :: Monad m => Gen m Area
 area' =
   area (1, defMaxLine) (1, defMaxColumn)

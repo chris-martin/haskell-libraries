@@ -1,4 +1,4 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving, LambdaCase, ScopedTypeVariables #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving, ScopedTypeVariables #-}
 
 module Data.Loc.Area
   ( Area
@@ -21,6 +21,10 @@ module Data.Loc.Area
   , spansAsc
   , spanCount
 
+  -- * Show and Read
+  , areaShowsPrec
+  , areaReadPrec
+
   ) where
 
 import Data.Loc.Internal.Prelude
@@ -37,38 +41,28 @@ import qualified Data.Set as Set
 data Terminus = Start | End
   deriving (Eq, Ord)
 
--- | A set of non-overlapping, non-abutting 'Span's. You may also think of an
--- 'Area' like a 'Span' that can have "gaps".
---
--- Construct and combine 'Area's using 'mempty', 'spanArea', 'fromTo', '+',
--- and '-'.
+{- |
+
+A set of non-overlapping, non-abutting 'Span's. You may also think of an 'Area'
+like a span that can be empty or have "gaps".
+
+Construct and combine areas using 'mempty', 'spanArea', 'fromTo', '+', and '-'.
+
+-}
 newtype Area = Area (Map Loc Terminus)
   deriving (Eq, Ord)
 
+-- | 'showsPrec' = 'areaShowsPrec'
 instance Show Area
   where
 
-    showsPrec _ a = showList (spansAsc a)
+    showsPrec = areaShowsPrec
 
--- |
--- >>> read "[]" :: Area
--- []
---
--- >>> read "[3:2-5:5,8:3-11:4]" :: Area
--- [3:2-5:5,8:3-11:4]
---
--- >>> read "[3:2-5:5,11:4-8:3]" :: Area
--- [3:2-5:5,8:3-11:4]
---
--- >>> read "[8:3-11:4,3:2-5:5]" :: Area
--- [3:2-5:5,8:3-11:4]
---
--- >>> read "[3:2-5:5,8:3-8:3]" :: Area
--- *** Exception: Prelude.read: no parse
+-- | 'readPrec' = 'areaReadPrec'
 instance Read Area
   where
 
-    readPrec = foldMap spanArea <$> readListPrec
+    readPrec = areaReadPrec
 
 instance Monoid Area
   where
@@ -77,11 +71,39 @@ instance Monoid Area
 
     mappend = (+)
 
+-- | '<>' = '+'
 instance Semigroup Area
 
--- | Construct a contiguous 'Area' consisting of a single 'Span' specified by
--- twp 'Loc's. The lesser 'Loc' will be the start, and the greater 'Loc' will
--- be the end. If the two 'Loc's are equal, the 'Area' will be empty.
+areaShowsPrec :: Int -> Area -> ShowS
+areaShowsPrec _ a =
+  showList (spansAsc a)
+
+{- |
+
+>>> readPrec_to_S areaReadPrec minPrec "[]"
+[([],"")]
+
+>>> readPrec_to_S areaReadPrec minPrec "[3:2-5:5,8:3-11:4]"
+[([3:2-5:5,8:3-11:4],"")]
+
+>>> readPrec_to_S areaReadPrec minPrec "[3:2-5:5,11:4-8:3]"
+[([3:2-5:5,8:3-11:4],"")]
+
+>>> readPrec_to_S areaReadPrec minPrec "[3:2-5:5,8:3-8:3]"
+[]
+
+-}
+areaReadPrec :: ReadPrec Area
+areaReadPrec =
+  foldMap spanArea <$> readListPrec
+
+{- |
+
+Construct a contiguous 'Area' consisting of a single 'Span' specified by two
+'Loc's. The lesser loc will be the start, and the greater loc will be the end.
+If the two locs are equal, the area will be empty.
+
+-}
 fromTo
   :: Loc -- ^ Start
   -> Loc -- ^ End
@@ -90,10 +112,14 @@ fromTo a b
   | a == b    = mempty
   | otherwise = spanArea (Span.fromTo a b)
 
--- | Construct a contiguous 'Area' consisting of a single 'Span'.
---
--- >>> spanArea (read "4:5-6:3")
--- [4:5-6:3]
+{- |
+
+Construct an 'Area' consisting of a single 'Span'.
+
+>>> spanArea (read "4:5-6:3")
+[4:5-6:3]
+
+-}
 spanArea :: Span -> Area
 spanArea s = Area (Map.fromList locs)
   where
@@ -101,28 +127,37 @@ spanArea s = Area (Map.fromList locs)
            , (Span.end   s, End  )
            ]
 
--- | A 'Span' from 'start' to 'end', or 'Nothing' if the 'Area' is empty.
---
--- >>> areaSpan mempty
--- Nothing
---
--- >>> areaSpan (read "[3:4-7:2]")
--- Just 3:4-7:2
---
--- >>> areaSpan (read "[3:4-7:2,15:6-17:9]")
--- Just 3:4-17:9
+{- |
+
+A 'Span' from 'start' to 'end', or 'Nothing' if the 'Area' is empty.
+
+>>> areaSpan mempty
+Nothing
+
+>>> areaSpan (read "[3:4-7:2]")
+Just 3:4-7:2
+
+>>> areaSpan (read "[3:4-7:2,15:6-17:9]")
+Just 3:4-17:9
+
+-}
 areaSpan :: Area -> Maybe Span
 areaSpan x =
   start x >>= \a ->
   end x   <&> \b ->
   Span.fromTo a b
 
--- |
--- >>> spansAsc mempty
--- []
---
--- >>> spansAsc (read "[3:4-7:2,15:6-17:9]")
--- [3:4-7:2,15:6-17:9]
+{- |
+
+A list of the 'Span's that constitute an 'Area', sorted in ascending order.
+
+>>> spansAsc mempty
+[]
+
+>>> spansAsc (read "[3:4-7:2,15:6-17:9]")
+[3:4-7:2,15:6-17:9]
+
+-}
 spansAsc :: Area -> [Span]
 spansAsc (Area m) =
     mapAccumL f Nothing (Map.keys m) & snd & catMaybes
@@ -130,113 +165,139 @@ spansAsc (Area m) =
     f Nothing  l  = (Just l,  Nothing)
     f (Just l) l' = (Nothing, Just $ Span.fromTo l l')
 
--- |
--- >>> spanCount mempty
--- 0
---
--- >>> spanCount (read "[3:4-7:2]")
--- 1
---
--- >>> spanCount (read "[3:4-7:2,15:6-17:9]")
--- 2
+{- |
+
+>>> spanCount mempty
+0
+
+>>> spanCount (read "[3:4-7:2]")
+1
+
+>>> spanCount (read "[3:4-7:2,15:6-17:9]")
+2
+
+-}
 spanCount :: Area -> Natural
 spanCount (Area locs) =
   fromIntegral (Foldable.length locs `div` 2)
 
--- | The first contiguous 'Span' in the 'Area', or 'Nothing' if the 'Area' is
--- empty.
---
--- >>> firstSpan mempty
--- Nothing
---
--- >>> firstSpan (read "[3:4-7:2]")
--- Just 3:4-7:2
---
--- >>> firstSpan (read "[3:4-7:2,15:6-17:9]")
--- Just 3:4-7:2
+{- |
+
+The first contiguous 'Span' in the 'Area', or 'Nothing' if the area is empty.
+
+>>> firstSpan mempty
+Nothing
+
+>>> firstSpan (read "[3:4-7:2]")
+Just 3:4-7:2
+
+>>> firstSpan (read "[3:4-7:2,15:6-17:9]")
+Just 3:4-7:2
+
+-}
 firstSpan :: Area -> Maybe Span
 firstSpan (Area m) =
   case Set.toAscList (Map.keysSet m) of
     a:b:_ -> Just (Span.fromTo a b)
     _     -> Nothing
 
--- | The last contiguous 'Span' in the 'Area', or 'Nothing' if the 'Area' is
--- empty.
---
--- >>> lastSpan mempty
--- Nothing
---
--- >>> lastSpan (read "[3:4-7:2]")
--- Just 3:4-7:2
---
--- >>> lastSpan (read "[3:4-7:2,15:6-17:9]")
--- Just 15:6-17:9
+{- |
+
+The last contiguous 'Span' in the 'Area', or 'Nothing' if the area is empty.
+
+>>> lastSpan mempty
+Nothing
+
+>>> lastSpan (read "[3:4-7:2]")
+Just 3:4-7:2
+
+>>> lastSpan (read "[3:4-7:2,15:6-17:9]")
+Just 15:6-17:9
+
+-}
 lastSpan :: Area -> Maybe Span
 lastSpan (Area m) =
   case Set.toDescList (Map.keysSet m) of
     b:a:_ -> Just (Span.fromTo a b)
     _     -> Nothing
 
--- | The 'Loc' at which the 'Area' starts, or 'Nothing' if the 'Area' is empty.
---
--- >>> start mempty
--- Nothing
---
--- >>> start (read "[3:4-7:2]")
--- Just 3:4
---
--- >>> start (read "[3:4-7:2,15:6-17:9]")
--- Just 3:4
+{- |
+
+The 'Loc' at which the 'Area' starts, or 'Nothing' if the 'Area' is empty.
+
+>>> start mempty
+Nothing
+
+>>> start (read "[3:4-7:2]")
+Just 3:4
+
+>>> start (read "[3:4-7:2,15:6-17:9]")
+Just 3:4
+
+-}
 start :: Area -> Maybe Loc
 start (Area m) =
   case Map.minViewWithKey m of
     Just ((l, _), _) -> Just l
     Nothing          -> Nothing
 
--- | The 'Loc' at which the 'Area' ends, or 'Nothing' if the 'Area' is empty.
---
--- >>> end mempty
--- Nothing
---
--- >>> end (read "[3:4-7:2]")
--- Just 7:2
---
--- >>> end (read "[3:4-7:2,15:6-17:9]")
--- Just 17:9
+{- |
+
+The 'Loc' at which the 'Area' ends, or 'Nothing' if the 'Area' is empty.
+
+>>> end mempty
+Nothing
+
+>>> end (read "[3:4-7:2]")
+Just 7:2
+
+>>> end (read "[3:4-7:2,15:6-17:9]")
+Just 17:9
+
+-}
 end :: Area -> Maybe Loc
 end (Area locs) =
   case Map.maxViewWithKey locs of
     Just ((l, _), _) -> Just l
     Nothing          -> Nothing
 
--- | The union of two 'Area's. 'Span's that overlap or abut are merged.
---
--- >>> read "[1:1-1:2]" + mempty
--- [1:1-1:2]
---
--- >>> read "[1:1-1:2]" + read "[1:2-1:3]"
--- [1:1-1:3]
---
--- >>> read "[1:1-1:2]" + read "[1:1-3:1]"
--- [1:1-3:1]
---
--- >>> read "[1:1-1:2]" + read "[1:1-11:1]"
--- [1:1-11:1]
---
--- >>> read "[1:1-3:1,6:1-6:2]" + read "[1:1-6:1]"
--- [1:1-6:2]
---
--- >>> read "[1:1-3:1]" + read "[5:1-6:2]"
--- [1:1-3:1,5:1-6:2]
+{- |
+
+The union of two 'Area's. Spans that overlap or abut will be merged in the
+result.
+
+>>> read "[1:1-1:2]" + mempty
+[1:1-1:2]
+
+>>> read "[1:1-1:2]" + read "[1:2-1:3]"
+[1:1-1:3]
+
+>>> read "[1:1-1:2]" + read "[1:1-3:1]"
+[1:1-3:1]
+
+>>> read "[1:1-1:2]" + read "[1:1-11:1]"
+[1:1-11:1]
+
+>>> read "[1:1-3:1,6:1-6:2]" + read "[1:1-6:1]"
+[1:1-6:2]
+
+>>> read "[1:1-3:1]" + read "[5:1-6:2]"
+[1:1-3:1,5:1-6:2]
+
+-}
 (+) :: Area -> Area -> Area
 a + b
   | spanCount a >= spanCount b = foldr addSpan a (spansAsc b)
   | otherwise                  = b + a
 
--- | @'addSpan' s a@ is the union of @'Area' a@ and @'Span' s@.
---
--- >>> addSpan (read "1:1-6:1") (read "[1:1-3:1,6:1-6:2]")
--- [1:1-6:2]
+{- |
+
+@'addSpan' s a@ is the union of @'Area' a@ and @'Span' s@.
+
+>>> addSpan (read "1:1-6:1") (read "[1:1-3:1,6:1-6:2]")
+[1:1-6:2]
+
+-}
 addSpan :: Span -> Area -> Area
 addSpan b (Area as) =
 
@@ -285,13 +346,21 @@ addSpan b (Area as) =
   in
     Area $ unmodifiedSpansBelow <> middle <> unmodifiedSpansAbove
 
--- | The difference between two 'Area's. @a '-' b@ contains the positions that
--- are covered by @a@ and not covered by @b@.
+{- |
+
+The difference between two 'Area's. @a '-' b@ contains what is covered by @a@
+and not covered by @b@.
+
+-}
 (-) :: Area -> Area -> Area
 a - b = foldr subtractSpan a (spansAsc b)
 
--- | @'subtractSpan' s a@ is the subset of 'Area' @a@ that is not covered by
--- @'Span' s@.
+{- |
+
+@'subtractSpan' s a@ is the subset of 'Area' @a@ that is not covered by 'Span'
+@s@.
+
+-}
 subtractSpan :: Span -> Area -> Area
 subtractSpan b (Area as) =
 

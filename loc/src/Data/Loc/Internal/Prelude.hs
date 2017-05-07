@@ -1,6 +1,7 @@
 module Data.Loc.Internal.Prelude
   ( module X
   , (<&>)
+  , readPrecChar
   ) where
 
 import Control.Applicative as X (empty, pure, (*>), (<*), (<*>))
@@ -9,10 +10,11 @@ import Control.Exception as X (ArithException (..), Exception, throw)
 import Control.Monad as X (Monad (..), guard, mfilter, when)
 import Data.Bifunctor as X (Bifunctor (..))
 import Data.Bool as X (Bool (..), not, otherwise, (&&), (||))
+import Data.Char (Char)
 import Data.Eq as X (Eq (..))
 import Data.Foldable as X (Foldable (..), foldMap, traverse_)
-import Data.Function as X (flip, id, on, ($), (&), (.))
-import Data.Functor as X (Functor (..), ($>), (<$), (<$>))
+import Data.Function as X (flip, id, on, ($), (&), (.), const)
+import Data.Functor as X (Functor (..), ($>), (<$), (<$>), void)
 import Data.List.NonEmpty as X (NonEmpty (..))
 import Data.Map as X (Map)
 import Data.Maybe as X (Maybe (..), catMaybes, maybe)
@@ -25,12 +27,20 @@ import Data.Tuple as X (fst, snd)
 import Numeric.Natural as X (Natural)
 import Prelude as X (Double, Enum (..), Int, Integral, Real (..), div,
                      fromIntegral, print, quotRem, round, sqrt, toInteger,
-                     undefined, (/))
+                     undefined, (/), String)
 import System.Exit as X (exitFailure)
 import System.IO as X (IO)
-import Text.ParserCombinators.ReadPrec as X (readP_to_Prec)
-import Text.Read as X (Read (..), read)
-import Text.Show as X (Show (..), showString, shows)
+import Text.ParserCombinators.ReadPrec as X (readP_to_Prec, readPrec_to_S,
+  minPrec)
+import Text.Read as X (Read (..), read, ReadPrec)
+import Text.Show as X (Show (..), showString, shows, ShowS)
 
+import qualified Text.ParserCombinators.ReadP as ReadP
+
+-- | '<&>' = flip 'fmap'
 (<&>) :: Functor f => f a -> (a -> b) -> f b
 (<&>) = flip fmap
+
+-- | A precedence parser that reads a single specific character.
+readPrecChar :: Char -> ReadPrec ()
+readPrecChar = void . readP_to_Prec . const . ReadP.char

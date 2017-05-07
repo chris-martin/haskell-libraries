@@ -54,6 +54,8 @@ tests:
     dependencies:
       - doctest
       - loc
+    ghc-options:
+      - -threaded
   hedgehog:
     source-dirs: test
     main: hedgehog.hs
@@ -61,3 +63,5 @@ tests:
       - hedgehog
       - loc
       - loc-test
+    ghc-options:
+      - -threaded

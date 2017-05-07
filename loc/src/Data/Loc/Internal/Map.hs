@@ -7,7 +7,11 @@ import Data.Loc.Internal.Prelude
 
 import Data.Map
 
--- | @'below' k m@ is the subset of 'Map' @m@ whose keys are less than @k@.
+{- |
+
+@'below' k m@ is the subset of 'Map' @m@ whose keys are less than @k@.
+
+-}
 below :: Ord k => k -> Map k a -> Map k a
 below k m =
   let
@@ -15,7 +19,11 @@ below k m =
   in
     x
 
--- | @'below' k m@ is the subset of 'Map' @m@ whose keys are greater than @k@.
+{- |
+
+@'below' k m@ is the subset of 'Map' @m@ whose keys are greater than @k@.
+
+-}
 above :: Ord k => k -> Map k a -> Map k a
 above k m =
   let
@@ -23,8 +31,12 @@ above k m =
   in
     x
 
--- | @'belowInclusive' k m@ is the subset of 'Map' @m@ whose keys are less
--- than or equal to @k@.
+{- |
+
+@'belowInclusive' k m@ is the subset of 'Map' @m@ whose keys are less than or
+equal to @k@.
+
+-}
 belowInclusive :: Ord k => k -> Map k a -> Map k a
 belowInclusive k m =
   let
@@ -34,8 +46,12 @@ belowInclusive k m =
       Nothing -> x
       Just v -> insert k v x
 
--- | @'aboveInclusive' k m@ is the subset of 'Map' @m@ whose keys are greater
--- than or equal to @k@.
+{- |
+
+@'aboveInclusive' k m@ is the subset of 'Map' @m@ whose keys are greater than
+or equal to @k@.
+
+-}
 aboveInclusive :: Ord k => k -> Map k a -> Map k a
 aboveInclusive k m =
   let
