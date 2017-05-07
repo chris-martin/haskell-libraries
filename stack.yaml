@@ -11,9 +11,18 @@ packages:
   - human-parse
   - human-text
   - irs-forms
+  - loc
+  - loc/test
   - list-monoids
   - mvar-lock
   - tchan-log-demo
+
+  - location:
+      git: https://github.com/hedgehogqa/haskell-hedgehog.git
+      commit: f52c4459d9dc89bad193eae919df9e2391677674
+    subdirs:
+      - hedgehog
+    extra-dep: true
 
 nix:
   shell-file: shell.nix

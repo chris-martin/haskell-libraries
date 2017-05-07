@@ -1,0 +1,35 @@
+name: loc-test
+version: 0.1.0.0
+category: Testing
+
+synopsis: >
+  Test-related utilities related to the /loc/ package.
+
+description: >
+  Test-related utilities related to the /loc/ package. Currently contains only
+  Hedgehog generators.
+
+library:
+  source-dirs: .
+  exposed-modules:
+    - Test.Loc.Hedgehog.Gen
+
+author:     Chris Martin <ch.martin@gmail.com>
+maintainer: Chris Martin <ch.martin@gmail.com>
+
+homepage: https://github.com/chris-martin/haskell-libraries
+
+license:      Apache-2.0
+license-file: license.txt
+
+dependencies:
+  - base >= 4.9 && < 4.10
+  - containers
+  - loc
+  - hedgehog
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
