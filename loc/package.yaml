@@ -39,7 +39,6 @@ license-file: license.txt
 dependencies:
   - base >= 4.9 && < 4.10
   - containers
-  - text
 
 ghc-options:
   - -Wall
