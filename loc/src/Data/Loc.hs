@@ -10,15 +10,26 @@ module Data.Loc
     Line, Column, Loc, Span, Area
 
   -- * Constructing
-  , loc, origin, spanFromTo, spanFromToMay, areaFromTo, spanArea
+  -- ** Loc
+  , loc, origin
+  -- ** Span
+  , spanFromTo, spanFromToMay
+  -- ** Area
+  , areaFromTo, spanArea
 
   -- * Deconstructing
-  , areaSpansAsc
+  -- ** Loc
+  , locLine, locColumn
+  -- ** Span
   , spanStart, spanEnd
+  -- ** Area
+  , areaSpansAsc
 
   -- * Combining
-  , areaUnion, areaDifference
+  -- ** Span
   , spanUnion, spanDifference
+  -- ** Area
+  , areaUnion, areaDifference
 
   -- * Miscellaneous
   , Pos, OneToTwo, ZeroToTwo, ToNat (..), LocException (..)
@@ -54,6 +65,14 @@ Create a 'Loc' from a line number and column number.
 -}
 loc :: Line -> Column -> Loc
 loc = Loc.loc
+
+-- | /This is an alias for 'Loc.line'./
+locLine :: Loc -> Line
+locLine = Loc.line
+
+-- | /This is an alias for 'Loc.column'./
+locColumn :: Loc -> Column
+locColumn = Loc.column
 
 {- |
 Attempt to construct a 'Span' from two 'Loc's. The lesser loc will be the
