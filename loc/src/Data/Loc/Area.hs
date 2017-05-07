@@ -44,7 +44,7 @@ data Terminus = Start | End
 {- |
 
 A set of non-overlapping, non-abutting 'Span's. You may also think of an 'Area'
-like a span that can be empty or have "gaps".
+like a span that can be empty or have “gaps”.
 
 Construct and combine areas using 'mempty', 'spanArea', 'fromTo', '+', and '-'.
 

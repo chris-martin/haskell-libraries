@@ -171,18 +171,18 @@ Here's a small piece of text for illustration:
 > 4 │ and vice versa.               │
 >   └───────────────────────────────┘
 
-In this example, the word "obvious" starts at line 2, column 20, and it ends at
+In this example, the word “obvious” starts at line 2, column 20, and it ends at
 line 2, column 27. The 'Show' instance uses a shorthand notation denoting
 these locs as @2:20@ and @2:27@.
 
 A 'Span' is a nonempty contiguous region of text between two locs; think of it
 like a highlighted area in a simple text editor. In the above example, a span
-that covers the word "obvious" starts at @2:20@ and ends at @2:27@. The 'Show'
+that covers the word “obvious” starts at @2:20@ and ends at @2:27@. The 'Show'
 instance describes this tersely as @2:20-2:27@.
 
 Multiple non-overlapping regions form an 'Area'. You may also think of an
-area like a span that can be empty or have "gaps". In the example above, the
-first three words "I have my", and not the spaces between them, are covered by
+area like a span that can be empty or have “gaps”. In the example above, the
+first three words “I have my”, and not the spaces between them, are covered by
 the area @[1:1-1:2,1:3-1:7,1:8-1:10]@.
 
 -}

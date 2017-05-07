@@ -1,14 +1,14 @@
 name: loc
-version: 0.1.0.0
+version: 0.1.0.1
 category: Data Structures
 
 synopsis: >
   Types representing line and column positions and ranges in text files.
 
 description: >
-  The package name /loc/ stands for "location" and is also an allusion to the
-  acronym for "lines of code".
-
+  The package name /loc/ stands for “location” and is also an allusion to the
+  acronym for “lines of code”.
+  .
   The @Loc@ type represents a caret position in a text file, the @Span@ type
   is a nonempty range between two @Loc@s, and the @Area@ type is a set of
   non-touching @Span@s.
