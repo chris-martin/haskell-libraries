@@ -23,7 +23,7 @@ module Data.Loc
   -- ** Span
   , spanStart, spanEnd
   -- ** Area
-  , areaSpansAsc
+  , areaStart, areaEnd, areaSpansAsc
 
   -- * Combining
   -- ** Span
@@ -170,6 +170,18 @@ spanStart = Span.start
 -}
 spanEnd :: Span -> Loc
 spanEnd = Span.end
+
+{- |
+/This is an alias for 'Area.start'./
+-}
+areaStart :: Area -> Maybe Loc
+areaStart = Area.start
+
+{- |
+/This is an alias for 'Area.end'./
+-}
+areaEnd :: Area -> Maybe Loc
+areaEnd = Area.end
 
 {- $concepts
 
