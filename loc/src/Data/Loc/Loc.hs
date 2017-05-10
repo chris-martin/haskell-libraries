@@ -53,7 +53,7 @@ instance Read Loc
 locShowsPrec :: Int -> Loc -> ShowS
 locShowsPrec _ (Loc l c) =
   shows l .
-  (showString ":") .
+  showString ":" .
   shows c
 
 {- |

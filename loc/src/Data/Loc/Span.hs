@@ -79,7 +79,7 @@ instance Read Span
 spanShowsPrec :: Int -> Span -> ShowS
 spanShowsPrec _ (Span a b) =
   locShowsPrec 10 a .
-  (showString "-") .
+  showString "-" .
   locShowsPrec 10 b
 
 {- |
