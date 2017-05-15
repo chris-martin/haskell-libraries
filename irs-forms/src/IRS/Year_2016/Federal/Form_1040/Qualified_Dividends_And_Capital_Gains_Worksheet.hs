@@ -1,5 +1,8 @@
 {- |
 
+The /Qualified Dividends and Capital Gain Tax Worksheet/ on page 44 of
+<https://www.irs.gov/pub/irs-prior/i1040gi--2016.pdf the instruction book for form 1040, tax year 2016>.
+
 This doesn't output the entire worksheet because I have not bothered to codify
 the entire tax table, but it takes care of most of the dull arithmetic and
 produces the values for close-to-last few lines, which you can then complete
