@@ -5,7 +5,8 @@ from the popular /containers/ library.
 
 -}
 
-{-# LANGUAGE DeriveFoldable, DeriveFunctor, GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE DeriveFoldable, DeriveFunctor, DeriveTraversable,
+             GeneralizedNewtypeDeriving #-}
 
 module Data.Forest
     (
@@ -38,6 +39,7 @@ import Data.Foldable (Foldable)
 import Data.Functor (Functor, fmap)
 import Data.Monoid (Monoid, mempty)
 import Data.Semigroup (Semigroup)
+import Data.Traversable (Traversable)
 import Prelude (Show)
 
 --------------------------------------------------------------------------------
@@ -49,7 +51,7 @@ import Prelude (Show)
 newtype Forest a = Forest
     { trees :: [Tree a] -- ^ The trees that constitute the forest.
     }
-    deriving (Eq, Show, Foldable, Functor, Semigroup, Monoid)
+    deriving (Eq, Show, Functor, Foldable, Traversable, Semigroup, Monoid)
 
 -- | A tree is defined completely by its 'root' and its 'subforest'.
 --
@@ -60,7 +62,7 @@ data Tree a = Tree
     , subforest :: Forest a -- ^ The forest containing all descendants
                             --   of the tree's 'root'.
     }
-    deriving (Eq, Show, Foldable, Functor)
+    deriving (Eq, Show, Functor, Foldable, Traversable)
 
 --------------------------------------------------------------------------------
 
