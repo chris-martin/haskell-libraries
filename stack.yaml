@@ -17,12 +17,8 @@ packages:
   - mvar-lock
   - tchan-log-demo
 
-  - location:
-      git: https://github.com/hedgehogqa/haskell-hedgehog.git
-      commit: f52c4459d9dc89bad193eae919df9e2391677674
-    subdirs:
-      - hedgehog
-    extra-dep: true
+extra-deps:
+  - hedgehog-0.2.2
 
 nix:
   shell-file: shell.nix

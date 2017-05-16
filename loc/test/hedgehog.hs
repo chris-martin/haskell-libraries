@@ -15,7 +15,7 @@ import qualified Test.Loc.Hedgehog.Gen as Gen
 
 main :: IO ()
 main =
-  checkConcurrent $$(discover) >>= \ok ->
+  checkParallel $$(discover) >>= \ok ->
   when (not ok) exitFailure
 
 prop_Span_add_mempty :: Property
