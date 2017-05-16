@@ -29,6 +29,10 @@ module Data.Forest
     , subforest
     , subtrees
 
+    -- * Folds
+    , foldForest
+    , foldTree
+
     -- * Forest functor
     -- $functor
 
@@ -36,7 +40,8 @@ module Data.Forest
 
 import Data.Eq (Eq)
 import Data.Foldable (Foldable)
-import Data.Functor (Functor, fmap)
+import Data.Function (($))
+import Data.Functor (Functor, (<$>), fmap)
 import Data.Monoid (Monoid, mempty)
 import Data.Semigroup (Semigroup)
 import Data.Traversable (Traversable)
@@ -95,6 +100,55 @@ tree = Tree
 subtrees :: Tree a -> [Tree a]
 subtrees t = trees (subforest t)
 
+{- | Catamorphism on forests.
+
+>>>
+:{
+example :: Forest Char
+example = forest
+    [ tree 'a' $ leaves "bc"
+    , tree 'd' $ forest
+        [ leaf 'e'
+        , tree 'f' $ leaves "g"
+        ]
+   ]
+:}
+
+>>> foldForest (intercalate ", " . fmap (\(a, b) -> [a] <> " [" <> b <> "]")) example
+"a [b [], c []], d [e [], f [g []]]"
+
+-}
+foldForest :: ([(a, b)] -> b) -> Forest a -> b
+foldForest f =
+    go
+  where
+    go (Forest ts) = f $ (\t -> (root t, go (subforest t))) <$> ts
+
+{- | Catamorphism on trees.
+
+>>>
+:{
+example :: Tree Char
+example = tree 'a' $ forest
+    [ tree 'b' $ leaves "cd"
+    , tree 'e' $ forest
+        [ leaf 'f'
+        , tree 'g' $ leaves "h"
+        ]
+   ]
+:}
+
+>>> foldTree (\a bs -> [a] <> " [" <> intercalate ", " bs <> "]") example
+"a [b [c [], d []], e [f [], g [h []]]]"
+
+-}
+foldTree :: (a -> [b] -> b) -> Tree a -> b
+foldTree f =
+    go
+  where
+    go t = f (root t) (go <$> subtrees t)
+
+
 --------------------------------------------------------------------------------
 
 {- $setup
@@ -102,6 +156,7 @@ subtrees t = trees (subforest t)
 >>> import Prelude
 >>> import Data.Char
 >>> import Data.Foldable
+>>> import Data.Function
 >>> import Data.List
 >>> import Data.Semigroup
 
@@ -140,20 +195,20 @@ example = forest
 
 >>>
 :{
-printCharForest = putStrLn . showForest
+showCharForest f =
+    intercalate ", " (showCharTree <$> trees f)
   where
-    showForest f = intercalate ", " (fmap showTree (trees f))
-    showTree t = case trees (subforest t) of
-        []   -> [root t]
-        [t'] -> [root t] <> ": " <> showTree t'
-        ts   -> [root t] <> ": (" <> showForest (subforest t) <> ")"
+    showCharTree t = case trees (subforest t) of
+      []   -> [root t]
+      [t'] -> [root t] <> ": " <> showCharTree t'
+      ts   -> [root t] <> ": (" <> showCharForest (subforest t) <> ")"
 :}
 
->>> printCharForest example
-a: (b, c), d: (e, f: g)
+>>> showCharForest example
+"a: (b, c), d: (e, f: g)"
 
->>> printCharForest (fmap toUpper example)
-A: (B, C), D: (E, F: G)
+>>> showCharForest (fmap toUpper example)
+"A: (B, C), D: (E, F: G)"
 
 Likewise, 'Forest''s 'Foldable' instance folds over the elements of the forest.
 
