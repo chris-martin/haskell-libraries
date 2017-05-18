@@ -29,7 +29,7 @@ import qualified System.Posix.Signals as Signals
 main :: IO ()
 main =
   void $
-  STM.newTVarIO "hello" >>= \displayVar ->
+  STM.newTVarIO "" >>= \displayVar ->
   Gtk.initGUI *>
   Gtk.windowNew >>= \(window :: Gtk.Window) ->
   Gtk.windowSetDefaultSize window 300 100 *>
