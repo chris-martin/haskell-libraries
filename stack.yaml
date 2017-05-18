@@ -3,6 +3,7 @@ resolver: lts-8.8
 packages:
   - accumulate
   - atomic-modify
+  - clock-app
   - data-forest
   - decimal-text
   - elephant
@@ -19,6 +20,7 @@ packages:
 
 extra-deps:
   - hedgehog-0.2.2
+  - X11-extras-0.4
 
 nix:
   shell-file: shell.nix
