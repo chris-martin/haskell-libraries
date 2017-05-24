@@ -64,3 +64,5 @@ tests:
       - loc-test
     ghc-options:
       - -threaded
+
+extra-source-files: README.md
