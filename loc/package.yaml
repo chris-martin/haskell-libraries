@@ -65,4 +65,7 @@ tests:
     ghc-options:
       - -threaded
 
-extra-source-files: README.md
+extra-source-files:
+  - README.md
+  - example.svg
+  - example.png
