@@ -2,7 +2,7 @@
 
 Overview of the concepts:
 
-![Example text illustrating Loc, Span, and Area](example.png)
+![Example text illustrating Loc, Span, and Area](https://raw.githubusercontent.com/chris-martin/haskell-libraries/4be81df645d4a2e5073f45563930e202e41209c7/loc/example.png)
 
 * `Loc` - a cursor position, starting at the origin `1:1`
 * `Span` - a nonempty contiguous region between two locs
