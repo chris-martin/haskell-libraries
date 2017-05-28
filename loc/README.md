@@ -8,6 +8,11 @@ Overview of the concepts:
 * `Span` - a nonempty contiguous region between two locs
 * `Area` - a set of zero or more spans with gaps between them
 
+See also:
+
+* [loc-test](https://hackage.haskell.org/package/loc-test) -
+  Test-related utilities for this package.
+
 ## `Pos`
 
 Since all of the numbers we're dealing with in this domain are positive, we
