@@ -16,6 +16,7 @@ packages:
   - loc/test
   - list-monoids
   - mvar-lock
+  - num-qq
   - tchan-log-demo
 
 extra-deps:
