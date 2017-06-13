@@ -1,0 +1,14 @@
+name: non-threaded-fork-failure
+version: 0.1.0.0
+
+default-extensions:
+  - NoImplicitPrelude
+
+executables:
+  non-threaded-fork-failure:
+    source-dirs: app
+    main: non-threaded-fork-failure.hs
+    ghc-options:
+      - -Wall
+    dependencies:
+      - base
