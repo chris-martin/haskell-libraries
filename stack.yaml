@@ -1,4 +1,4 @@
-resolver: lts-8.8
+resolver: lts-8.19
 
 packages:
   - accumulate
@@ -20,7 +20,7 @@ packages:
   - tchan-log-demo
 
 extra-deps:
-  - hedgehog-0.2.2
+  - hedgehog-0.3
   - X11-extras-0.4
 
 nix:
