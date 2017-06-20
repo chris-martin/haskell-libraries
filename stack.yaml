@@ -9,6 +9,7 @@ packages:
   - elephant
   - encodings
   - exception-records
+  - fizzbuzz-as-a-service
   - human-parse
   - human-text
   - irs-forms
