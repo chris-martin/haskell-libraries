@@ -1,0 +1,16 @@
+name: gadt-constraint-record-example
+version: 0.1.0.0
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - GadtConstraintRecordExample
+
+dependencies:
+  - base
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude

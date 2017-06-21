@@ -10,6 +10,7 @@ packages:
   - encodings
   - exception-records
   - fizzbuzz-as-a-service
+  - gadt-constraint-record-example
   - human-parse
   - human-text
   - irs-forms
