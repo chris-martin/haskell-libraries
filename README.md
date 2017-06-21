@@ -4,6 +4,7 @@ This repository is a convenient place for me to start libraries. If a package gr
 
 Packages released to Hackage:
 [data-forest](https://hackage.haskell.org/package/data-forest),
+[fizzbuzz-as-a-service](https://hackage.haskell.org/package/fizzbuzz-as-a-service),
 [human-parse](https://hackage.haskell.org/package/human-parse),
 [human-text](https://hackage.haskell.org/package/human-text),
 [loc](https://hackage.haskell.org/package/loc),
