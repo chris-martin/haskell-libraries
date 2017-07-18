@@ -1,0 +1,39 @@
+name: acme-truthy
+version: 0.1.0.0
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Truthy
+    - Truthy.Class
+    - Truthy.Not
+    - Truthy.Truthiness
+
+author:     Chris Martin <ch.martin@gmail.com>
+maintainer: Chris Martin <ch.martin@gmail.com>
+
+homepage: https://github.com/chris-martin/haskell-libraries
+
+dependencies:
+  - base >= 4.9 && < 4.10
+  - bytestring
+  - containers
+  - Only
+  - text
+  - vector
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
+
+tests:
+  doctest:
+    source-dirs: test
+    main: doctest.hs
+    dependencies:
+      - doctest
+      - acme-truthy
+    ghc-options:
+      - -threaded

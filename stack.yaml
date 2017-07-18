@@ -2,6 +2,7 @@ resolver: lts-8.23
 
 packages:
   - accumulate
+  - acme-truthy
   - atomic-modify
   - clock-app
   - data-forest
