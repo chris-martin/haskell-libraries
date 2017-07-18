@@ -19,6 +19,7 @@ packages:
   - list-monoids
   - mvar-lock
   - num-qq
+  - power-of-two
   - tchan-log-demo
 
 extra-deps:

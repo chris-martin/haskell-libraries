@@ -1,0 +1,32 @@
+name: power-of-two
+version: 0.1.0.0
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Numeric.PowerOfTwo
+
+author:     Chris Martin <ch.martin@gmail.com>
+maintainer: Chris Martin <ch.martin@gmail.com>
+
+homepage: https://github.com/chris-martin/haskell-libraries
+
+dependencies:
+  - base >= 4.9 && < 4.10
+  - integer-logarithms
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
+
+tests:
+  doctest:
+    source-dirs: test
+    main: doctest.hs
+    dependencies:
+      - doctest
+      - power-of-two
+    ghc-options:
+      - -threaded
