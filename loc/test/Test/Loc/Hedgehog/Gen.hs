@@ -83,9 +83,9 @@ boundsSize (a, b) =
 @'pos' a b@ generates a number on the linear range /a/ to /b/.
 
 -}
-pos :: (Monad m, ToNat n, Num n)
+pos :: (ToNat n, Num n)
   => Bounds n -- ^ Minimum and maximum value to generate
-  -> Gen m n
+  -> Gen n
 pos (a, b) =
   let
     range = Range.linear (toNat a) (toNat b)
@@ -97,9 +97,9 @@ pos (a, b) =
 @'line' a b@ generates a line number on the linear range /a/ to /b/.
 
 -}
-line :: Monad m
-  => Bounds Line -- ^ Minimum and maximum line number
-  -> Gen m Line
+line
+  :: Bounds Line -- ^ Minimum and maximum line number
+  -> Gen Line
 line = pos
 
 {- |
@@ -107,7 +107,7 @@ line = pos
 Generates a line number within the default bounds @(1, 'defMaxLine')@.
 
 -}
-line' :: Monad m => Gen m Line
+line' :: Gen Line
 line' =
   line (1, defMaxLine)
 
@@ -116,9 +116,9 @@ line' =
 @'column' a b@ generates a column number on the linear range /a/ to /b/.
 
 -}
-column :: Monad m
-  => Bounds Column -- ^ Minimum and maximum column number
-  -> Gen m Column
+column
+  :: Bounds Column -- ^ Minimum and maximum column number
+  -> Gen Column
 column = pos
 
 {- |
@@ -126,7 +126,7 @@ column = pos
 Generates a column number within the default bounds @(1, 'defMaxColumn')@.
 
 -}
-column' :: Monad m => Gen m Column
+column' :: Gen Column
 column' =
   column (1, defMaxColumn)
 
@@ -141,10 +141,10 @@ column' =
 bounded by @lineBounds@ and column number bounded by @columnBounds@.
 
 -}
-loc :: Monad m
-  => Bounds Line   -- ^ Minimum and maximum line number
+loc
+  :: Bounds Line   -- ^ Minimum and maximum line number
   -> Bounds Column -- ^ Minimum and maximum column number
-  -> Gen m Loc
+  -> Gen Loc
 loc lineBounds columnBounds =
   Loc.loc <$> line   lineBounds
           <*> column columnBounds
@@ -154,7 +154,7 @@ loc lineBounds columnBounds =
 Generates a 'Loc' within the default line and column bounds.
 
 -}
-loc' :: Monad m => Gen m Loc
+loc' :: Gen Loc
 loc' =
   loc (1, defMaxLine) (1, defMaxColumn)
 
@@ -170,25 +170,25 @@ positions whose line numbers are bounded by @lineBounds@ and whose column
 numbers are bounded by @columnBounds@.
 
 -}
-span :: forall m. Monad m
-  => Bounds Line   -- ^ Minimum and maximum line number
+span
+  :: Bounds Line   -- ^ Minimum and maximum line number
   -> Bounds Column -- ^ Minimum and maximum column number
-  -> Gen m Span
+  -> Gen Span
 span lineBounds columnBounds@(minColumn, maxColumn) =
   let
-    lines :: Gen m (Line, Line)
+    lines :: Gen (Line, Line)
     lines =
       line lineBounds >>= \a ->
       line lineBounds <&> \b ->
       (min a b, max a b)
 
-    columnsDifferentLine :: Gen m (Column, Column)
+    columnsDifferentLine :: Gen (Column, Column)
     columnsDifferentLine =
       column columnBounds >>= \a ->
       column columnBounds <&> \b ->
       (a, b)
 
-    columnsSameLine :: Gen m (Column, Column)
+    columnsSameLine :: Gen (Column, Column)
     columnsSameLine =
       column (minColumn + 1, maxColumn) >>= \a ->
       column columnBounds <&> \b ->
@@ -217,7 +217,7 @@ Generates a 'Span' with start and end positions within the default line and
 column bounds.
 
 -}
-span' :: Monad m => Gen m Span
+span' :: Gen Span
 span' =
   span (1, defMaxLine) (1, defMaxColumn)
 
@@ -233,10 +233,10 @@ with start and end positions whose line numbers are bounded by @lineBounds@
 and whose column numbers are bounded by @columnBounds@.
 
 -}
-area :: forall m. Monad m
-  => Bounds Line   -- ^ Minimum and maximum line number
+area
+  :: Bounds Line   -- ^ Minimum and maximum line number
   -> Bounds Column -- ^ Minimum and maximum column number
-  -> Gen m Area
+  -> Gen Area
 area lineBounds columnBounds =
     fold . snd . mapAccumL f Nothing . Set.toAscList . Set.fromList <$> locs
 
@@ -244,8 +244,8 @@ area lineBounds columnBounds =
     gridSize :: Int = fromIntegral $ toNat (boundsSize lineBounds)
                                `max` toNat (boundsSize columnBounds)
 
-    locs :: Gen m [Loc]
-      = loc lineBounds columnBounds
+    locs :: Gen [Loc] =
+      loc lineBounds columnBounds
       & List.repeat
       & List.take (gridSize `div` 5)
       & sequenceA
@@ -262,6 +262,6 @@ Generates an 'Area' consisting of 'Span's with start and end positions within
 the default line and column bounds.
 
 -}
-area' :: Monad m => Gen m Area
+area' :: Gen Area
 area' =
   area (1, defMaxLine) (1, defMaxColumn)
