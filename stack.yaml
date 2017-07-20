@@ -3,6 +3,7 @@ resolver: lts-8.23
 packages:
   - accumulate
   - acme-truthy
+  - alternating-characters
   - atomic-modify
   - clock-app
   - data-forest
