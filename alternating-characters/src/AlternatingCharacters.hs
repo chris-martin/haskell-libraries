@@ -66,8 +66,8 @@ solve' a (x:xs) =
 
 {- |
 
-@solve'' n a b xs@ gives @n@ plus the solution for string @zs ++ xs@, where @zs@
-is an alternation of length @n@ ending in @[a, b]@, assuming that the maximum
+@solve'' n a b xs@ gives the solution for string @zs ++ xs@, where @zs@ is an
+alternation of length @n@ ending in @[a, b]@, assuming that the maximum
 alternation contains the letters @a@ and @b@.
 
 -}
