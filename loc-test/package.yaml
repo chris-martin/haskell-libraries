@@ -10,7 +10,7 @@ description: |
   Hedgehog generators.
 
 library:
-  source-dirs: .
+  source-dirs: src
   exposed-modules:
     - Test.Loc.Hedgehog.Gen
 
