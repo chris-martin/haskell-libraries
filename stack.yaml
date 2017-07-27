@@ -11,6 +11,7 @@ packages:
   - elephant
   - encodings
   - exception-records
+  - exponent-dag
   - fizzbuzz-as-a-service
   - gadt-constraint-record-example
   - human-parse

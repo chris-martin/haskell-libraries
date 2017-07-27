@@ -1,0 +1,25 @@
+name: exponent-dag
+version: 0.1.0.0
+
+author:     Chris Martin <ch.martin@gmail.com>
+maintainer: Chris Martin <ch.martin@gmail.com>
+
+homepage: https://github.com/chris-martin/haskell-libraries
+
+dependencies:
+  - base >= 4.9 && < 4.10
+  - graphviz
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
+
+executables:
+  exponent-dag:
+    source-dirs: app
+    main: exponent-dag.hs
+    ghc-options:
+      - -Wall
+      - -threaded
