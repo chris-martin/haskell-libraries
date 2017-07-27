@@ -1,4 +1,4 @@
-resolver: lts-8.23
+resolver: lts-9.0
 
 packages:
   - accumulate
@@ -39,6 +39,7 @@ nix:
     - pango
     - pkgconfig
     - xorg.libX11
-    - xorg.libXrandr
     - xorg.libXext
+    - xorg.libXrandr
+    - xorg.xproto
     - zlib
