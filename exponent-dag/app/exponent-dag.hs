@@ -1,7 +1,5 @@
 module Main (main) where
 
-import Control.Applicative (pure)
-import Data.Foldable (foldr)
 import Data.Functor (void)
 import Data.GraphViz.Types.Generalised (DotGraph)
 import Data.GraphViz.Types.Monadic (digraph', (-->))
@@ -18,7 +16,7 @@ main =
 
 graph :: Integer -> DotGraph Integer
 graph maxNode =
-  digraph' $ foldr (*>) (pure ()) ((\(a, b) -> a --> b) <$> edges maxNode)
+  digraph' $ sequence_ ((\(a, b) -> a --> b) <$> edges maxNode)
 
 edges :: Integer -> [(Integer, Integer)]
 edges maxNode =
