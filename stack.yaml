@@ -10,6 +10,7 @@ packages:
   - decimal-text
   - elephant
   - encodings
+  - equivalent
   - exception-records
   - exponent-dag
   - fizzbuzz-as-a-service
