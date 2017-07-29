@@ -11,7 +11,9 @@ import Prelude
 [[1,4,7,10],[2,5,8],[3,6,9]]
 -}
 equivalent :: (a -> a -> Bool) -> [a] -> [[a]]
-equivalent _ [] = []
-equivalent eq (x:xs) =
-  let (group, others) = partition (eq x) xs
-  in  (x:group) : equivalent eq others
+equivalent eq = go
+  where
+    go [] = []
+    go (x:xs) =
+      let (group, others) = partition (eq x) xs
+      in  (x:group) : go others
