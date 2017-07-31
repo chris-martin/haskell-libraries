@@ -7,8 +7,8 @@ cache:
 before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
-  - sudo apt-get install haskell-stack libcairo2-dev libglib2.0-dev libgtk-3-dev libpango1.0-dev libx11-dev libxext-dev libxrandr-dev x11proto-core-dev zlib1g-dev
-  - stack --no-terminal upgrade
+  - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  - sudo apt-get install libcairo2-dev libglib2.0-dev libgtk-3-dev libpango1.0-dev libx11-dev libxext-dev libxrandr-dev x11proto-core-dev zlib1g-dev
   - stack --no-terminal setup
   - stack --no-terminal install hscolour
 
