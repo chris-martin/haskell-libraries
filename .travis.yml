@@ -1,19 +1,15 @@
-sudo: true
+language: nix
 
 cache:
   directories:
     - $HOME/.stack
 
 before_install:
-  - mkdir -p ~/.local/bin
-  - export PATH=$HOME/.local/bin:$PATH
-  - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
-  - sudo apt-get install libcairo2-dev libglib2.0-dev libgtk-3-dev libpango1.0-dev libx11-dev libxext-dev libxrandr-dev x11proto-core-dev zlib1g-dev
-  - stack --no-terminal setup
-  - stack --no-terminal install hscolour
+  - nix-env -i stack
+  - stack --nix install hscolour
 
 script:
-  - stack --no-terminal --skip-ghc-check test
+  - stack --nix --no-terminal test
 
 notifications:
   email: false
