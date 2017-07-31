@@ -11,3 +11,5 @@ Packages released to Hackage:
 [human-text](https://hackage.haskell.org/package/human-text),
 [loc](https://hackage.haskell.org/package/loc),
 [loc-test](https://hackage.haskell.org/package/loc-test).
+
+![](https://travis-ci.org/chris-martin/haskell-libraries.svg)
