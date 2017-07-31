@@ -9,7 +9,7 @@ before_install:
   - stack --nix install hscolour
 
 script:
-  - stack --nix --no-terminal test
+  - env HEDGEHOG_VERBOSITY=0 stack --nix --no-terminal test
 
 notifications:
   email: false
