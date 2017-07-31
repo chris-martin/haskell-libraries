@@ -6,7 +6,6 @@ cache:
 
 before_install:
   - nix-env -i stack
-  - stack --nix install hscolour
 
 script:
   - env HEDGEHOG_VERBOSITY=0 stack --nix --no-terminal test
