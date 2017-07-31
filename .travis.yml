@@ -1,5 +1,8 @@
 language: nix
 
+env:
+  - LC_ALL=C.UTF-8
+
 cache:
   directories:
     - $HOME/.stack
@@ -8,7 +11,7 @@ before_install:
   - nix-env -i stack
 
 script:
-  - env HEDGEHOG_VERBOSITY=0 stack --nix --no-terminal test
+  - stack --nix --no-terminal test
 
 notifications:
   email: false
