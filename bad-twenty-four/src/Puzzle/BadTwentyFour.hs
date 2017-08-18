@@ -3,9 +3,11 @@
 module Puzzle.BadTwentyFour where
 
 import Data.IntMultiSet (IntMultiSet)
+import Data.Map (Map)
 import Prelude
 import Text.Show (Show (..), showParen, showString)
 
+import qualified Data.Map as Map
 import qualified Data.IntMultiSet as S
 import qualified Data.Ratio as Ratio
 
@@ -69,3 +71,20 @@ eval =
 
 goodExpr :: Expr -> Bool
 goodExpr e = eval e == 24
+
+{- |
+>>> fmap eval uniformExprs
+[24 % 1,24 % 1,24 % 1,24 % 1,24 % 1,24 % 1,24 % 1,24 % 1,24 % 1]
+-}
+uniformExprs :: [Expr]
+uniformExprs =
+  [ (1 + 1) * (1 + 1) * (1 + 1) * (1 + 1 + 1)
+  , 2 * 2 * 2 + 2 * 2 * 2 * 2
+  , 3 * 3 * 3 - 3
+  , 4 * 4 + 4 + 4
+  , 5 * 5 - 5 / 5
+  , 6 + 6 + 6 + 6
+  , (7 + 7 + 7) + (7 + 7 + 7) / 7
+  , 8 + 8 + 8
+  , 9 + 9 + 9 - (9 + 9 + 9) / 9
+  ]

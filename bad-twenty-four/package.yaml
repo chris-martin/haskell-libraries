@@ -13,6 +13,7 @@ library:
 
 dependencies:
   - base >= 4.9 && < 4.10
+  - containers
   - multiset
 
 ghc-options:
