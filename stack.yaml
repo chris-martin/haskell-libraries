@@ -27,17 +27,7 @@ packages:
 
 extra-deps:
   - hedgehog-0.5
-  - X11-extras-0.4
 
 nix:
   packages:
-    - cairo
-    - glib
-    - gtk3
-    - pango
-    - pkgconfig
-    - xorg.libX11
-    - xorg.libXext
-    - xorg.libXrandr
-    - xorg.xproto
     - zlib
