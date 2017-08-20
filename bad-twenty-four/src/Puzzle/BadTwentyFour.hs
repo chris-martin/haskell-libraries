@@ -1,31 +1,69 @@
 {-# LANGUAGE LambdaCase #-}
 
+{- |
+
+>>> 1 + (2 + 3) + 4 :: Expr
+(1 + 2 + 3 + 4)
+
+>>> 1 * (2 * 3) * 4 :: Expr
+(1 * 2 * 3 * 4)
+
+>>> 1 + (2 - 3) + 4 :: Expr
+((1 + 2 + 4) - 3)
+
+>>> 1 * (2 / 3) * 4 :: Expr
+((1 * 2 * 4) / 3)
+
+-}
+
 module Puzzle.BadTwentyFour where
 
 import Data.IntMultiSet (IntMultiSet)
 import Data.Map (Map)
+import Data.Semigroup (Semigroup (..), Endo (..))
+import Data.Sequence (Seq, (|>), (<|))
 import Prelude
 import Text.Show (Show (..), showParen, showString)
 
+import qualified Data.Foldable as Foldable
+import qualified Data.List as List
 import qualified Data.Map as Map
 import qualified Data.IntMultiSet as S
 import qualified Data.Ratio as Ratio
+import qualified Data.Sequence as Seq
 
 type S = IntMultiSet
 
 data Expr =
-  Add Expr Expr |
+  Add (Seq Expr) |
+  Mul (Seq Expr) |
   Sub Expr Expr |
-  Mul Expr Expr |
   Div Expr Expr |
   Const Int
 
 instance Num Expr
   where
 
-    (+) = Add
-    (-) = Sub
-    (*) = Mul
+    Add xs + Add ys = Add (xs <> ys)
+    Add xs + Sub y z = Sub (Add xs + y) z
+    Sub y z + Add xs = Sub (y + Add xs) z
+    Sub w x + Sub y z = Sub (w + y) (x + z)
+    Add xs + y = Add (xs |> y)
+    y + Add xs = Add (y <| xs)
+    x + y = Add $ Seq.fromList [x, y]
+
+    Sub x y - Add zs = Sub x (y + Add zs)
+    Add xs - Sub y z = Sub (Add xs + z) y
+    Sub w x - Sub y z = Sub (w + z) (x + y)
+    x - y = Sub x y
+
+    Mul xs * Mul ys = Mul (xs <> ys)
+    Mul xs * Div y z = Div (Mul xs * y) z
+    Div y z * Mul xs = Div (y * Mul xs) z
+    Div w x * Div y z = Div (w * y) (x * z)
+    Mul xs * y = Mul (xs |> y)
+    y * Mul xs = Mul (y <| xs)
+    x * y = Mul $ Seq.fromList [x, y]
 
     fromInteger = Const . fromInteger
 
@@ -35,7 +73,10 @@ instance Num Expr
 instance Fractional Expr
   where
 
-    (/) = Div
+    Div x y / Mul zs = Div x (y * Mul zs)
+    Mul xs / Div y z = Div (Mul xs * z) y
+    Div w x / Div y z = Div (w * z) (x * y)
+    x / y = Div x y
 
     fromRational x = Div (fromInteger $ Ratio.numerator x)
                          (fromInteger $ Ratio.denominator x)
@@ -47,14 +88,23 @@ instance Show Expr
 exprShowsPrec :: Int -> Expr -> ShowS
 exprShowsPrec _ =
   \case
-    Add x y -> exprShows '+' x y
-    Sub x y -> exprShows '-' x y
-    Mul x y -> exprShows '*' x y
-    Div x y -> exprShows '/' x y
+    Add xs -> exprShowsN '+' xs
+    Mul xs -> exprShowsN '*' xs
+    Sub x y -> exprShows2 '-' x y
+    Div x y -> exprShows2 '/' x y
     Const x -> shows x
 
-exprShows :: Char -> Expr -> Expr -> ShowS
-exprShows op x y =
+exprShowsN :: Char -> Seq Expr -> ShowS
+exprShowsN op xs =
+  showParen True .
+  appEndo .
+  Foldable.fold .
+  List.intersperse (Endo $ showString [' ', op, ' ']) .
+  fmap (Endo . shows) $
+  Foldable.toList xs
+
+exprShows2 :: Char -> Expr -> Expr -> ShowS
+exprShows2 op x y =
   showParen True $
   shows x .
   showString [' ', op, ' '] .
@@ -63,9 +113,9 @@ exprShows op x y =
 eval :: Expr -> Rational
 eval =
   \case
-    Add x y -> eval x + eval y
+    Add xs -> sum     $ fmap eval xs
+    Mul xs -> product $ fmap eval xs
     Sub x y -> eval x - eval y
-    Mul x y -> eval x * eval y
     Div x y -> eval x / eval y
     Const x -> fromIntegral x
 
@@ -79,12 +129,12 @@ goodExpr e = eval e == 24
 uniformExprs :: [Expr]
 uniformExprs =
   [ (1 + 1) * (1 + 1) * (1 + 1) * (1 + 1 + 1)
-  , 2 * 2 * 2 + 2 * 2 * 2 * 2
+  , 2 * 2 * (2 + 2 + 2)
   , 3 * 3 * 3 - 3
   , 4 * 4 + 4 + 4
   , 5 * 5 - 5 / 5
   , 6 + 6 + 6 + 6
-  , (7 + 7 + 7) + (7 + 7 + 7) / 7
+  , 7 + 7 + 7 + (7 + 7 + 7) / 7
   , 8 + 8 + 8
   , 9 + 9 + 9 - (9 + 9 + 9) / 9
   ]
