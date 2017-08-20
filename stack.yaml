@@ -18,7 +18,6 @@ packages:
   - list-monoids
   - mvar-lock
   - non-threaded-fork-failure
-  - num-qq
   - partial-ord
   - power-of-two
   - tchan-log-demo
