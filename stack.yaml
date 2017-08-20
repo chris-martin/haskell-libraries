@@ -6,7 +6,6 @@ packages:
   - alternating-characters
   - atomic-modify
   - bad-twenty-four
-  - clock-app
   - data-forest
   - decimal-text
   - elephant
