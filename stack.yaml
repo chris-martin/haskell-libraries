@@ -10,7 +10,6 @@ packages:
   - decimal-text
   - elephant
   - encodings
-  - equivalent
   - exception-records
   - exponent-dag
   - gadt-constraint-record-example
