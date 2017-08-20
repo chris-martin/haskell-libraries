@@ -5,7 +5,6 @@ packages:
   - acme-truthy
   - alternating-characters
   - atomic-modify
-  - bad-twenty-four
   - data-forest
   - decimal-text
   - elephant
