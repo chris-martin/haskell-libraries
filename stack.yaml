@@ -11,8 +11,6 @@ packages:
   - exception-records
   - exponent-dag
   - gadt-constraint-record-example
-  - human-parse
-  - human-text
   - irs-forms
   - list-monoids
   - mvar-lock

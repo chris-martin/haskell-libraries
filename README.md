@@ -4,8 +4,4 @@ This repository is a convenient place for me to start libraries. If a package gr
 
 There are some packages that don't compile, but these are not listed in `stack.yaml`. So you should be able to run `stack test` to check everything that *is* supposed to be in working condition.
 
-Packages released to Hackage:
-[human-parse](https://hackage.haskell.org/package/human-parse),
-[human-text](https://hackage.haskell.org/package/human-text).
-
 ![](https://travis-ci.org/chris-martin/haskell-libraries.svg)
