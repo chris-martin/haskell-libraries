@@ -22,7 +22,6 @@ import Data.IntMultiSet (IntMultiSet)
 import Data.Map (Map)
 import Data.Semigroup (Semigroup (..), Endo (..))
 import Data.Sequence (Seq, (|>), (<|))
-import Prelude
 import Text.Show (Show (..), showParen, showString)
 
 import qualified Data.Foldable as Foldable
@@ -45,11 +44,11 @@ instance Num Expr
   where
 
     Add xs + Add ys = Add (xs <> ys)
-    Add xs + Sub y z = Sub (Add xs + y) z
-    Sub y z + Add xs = Sub (y + Add xs) z
     Sub w x + Sub y z = Sub (w + y) (x + z)
     Add xs + y = Add (xs |> y)
     y + Add xs = Add (y <| xs)
+    Sub x y + z = Sub (x + z) y
+    z + Sub x y = Sub (z + x) y
     x + y = Add $ Seq.fromList [x, y]
 
     Sub x y - Add zs = Sub x (y + Add zs)
@@ -58,11 +57,11 @@ instance Num Expr
     x - y = Sub x y
 
     Mul xs * Mul ys = Mul (xs <> ys)
-    Mul xs * Div y z = Div (Mul xs * y) z
-    Div y z * Mul xs = Div (y * Mul xs) z
     Div w x * Div y z = Div (w * y) (x * z)
     Mul xs * y = Mul (xs |> y)
     y * Mul xs = Mul (y <| xs)
+    Div x y * z = Div (x * z) y
+    z * Div x y = Div (z * x) y
     x * y = Mul $ Seq.fromList [x, y]
 
     fromInteger = Const . fromInteger

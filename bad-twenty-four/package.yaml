@@ -19,9 +19,6 @@ dependencies:
 ghc-options:
   - -Wall
 
-default-extensions:
-  - NoImplicitPrelude
-
 tests:
   doctest:
     source-dirs: test
