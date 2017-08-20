@@ -19,8 +19,6 @@ packages:
   - human-parse
   - human-text
   - irs-forms
-  - loc
-  - loc-test
   - list-monoids
   - mvar-lock
   - non-threaded-fork-failure
