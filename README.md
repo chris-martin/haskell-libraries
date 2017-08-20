@@ -6,7 +6,6 @@ There are some packages that don't compile, but these are not listed in `stack.y
 
 Packages released to Hackage:
 [data-forest](https://hackage.haskell.org/package/data-forest),
-[fizzbuzz-as-a-service](https://hackage.haskell.org/package/fizzbuzz-as-a-service),
 [human-parse](https://hackage.haskell.org/package/human-parse),
 [human-text](https://hackage.haskell.org/package/human-text).
 
