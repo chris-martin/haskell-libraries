@@ -6,7 +6,6 @@ packages:
   - alternating-characters
   - atomic-modify
   - decimal-text
-  - elephant
   - encodings
   - exception-records
   - exponent-dag
