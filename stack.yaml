@@ -4,7 +4,6 @@ packages:
   - accumulate
   - acme-truthy
   - alternating-characters
-  - atomic-modify
   - decimal-text
   - encodings
   - exception-records
